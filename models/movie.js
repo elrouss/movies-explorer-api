@@ -62,7 +62,7 @@ const movieSchema = new Schema(
     owner: {
       type: ObjectId,
       ref: 'user',
-      // required: true,
+      required: true,
     },
 
     movieId: {

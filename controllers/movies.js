@@ -15,7 +15,7 @@ function createMovie(req, res, next) {
     nameEN,
   } = req.body;
 
-  // const { _id } = req.user; // TODO
+  const { _id } = req.user;
 
   Movie
     .create({
@@ -27,19 +27,24 @@ function createMovie(req, res, next) {
       image,
       trailerLink,
       thumbnail,
-      // owner: _id,
+      owner: _id,
       movieId,
       nameRU,
       nameEN,
     })
-    .then((movie) => res.status(201).send(movie)) // TODO: populate для owner
+    .then((movie) => {
+      movie
+        .populate('owner') // TODO: исправить ответ, где в поле owner приходит null
+        .then(() => res.status(201).send(movie))
+        .catch((err) => console.log(err));
+    })
     .catch((err) => console.log(err));
 }
 
 function receiveMovies(_, res, next) {
   Movie
     .find({})
-    .populate('owner')
+    .populate('owner') // TODO: исправить ответ, где в поле owner приходит null
     .then((movies) => res.send(movies))
     .catch((err) => console.log(err));
 }
