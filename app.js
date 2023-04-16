@@ -1,21 +1,29 @@
 const express = require('express');
 const mongoose = require('mongoose');
-// const bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 
-mongoose.set('strictQuery', true);
-mongoose.connect('mongodb://localhost:27017/bitfilmsdb')
-  .then(() => {
-    console.log('Соединение с MongoDB установлено');
-  })
-  .catch((err) => console.log(`Возникла ошибка при соединении с MongoDB: ${err}`));
+const router = require('./routes/index');
 
-const app = express();
-
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: true }));
+const { MONGODB_URL } = require('./utils/constants');
 
 const { PORT = 3000 } = process.env;
 
-app.listen(PORT, (err) => {
-  err ? console.log(`В процессе соединения с портом возникла ошибка: ${err}`) : console.log(`Соединение с портом № ${PORT} успешно установлено`);
+const app = express();
+
+mongoose.set('strictQuery', true);
+mongoose.connect(MONGODB_URL);
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use((req, res, next) => {
+  req.user = {
+    _id: '5d8b8592978f8bd833ca8133',
+  };
+
+  next();
 });
+
+app.use(router);
+
+app.listen(PORT);
