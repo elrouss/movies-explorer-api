@@ -34,7 +34,7 @@ function createMovie(req, res, next) {
     })
     .then((movie) => {
       movie
-        .populate('owner') // TODO: исправить ответ, где в поле owner приходит null
+        .populate('owner', '_id')
         .then(() => res.status(201).send(movie))
         .catch((err) => console.log(err));
     })
@@ -44,7 +44,7 @@ function createMovie(req, res, next) {
 function receiveMovies(_, res, next) {
   Movie
     .find({})
-    .populate('owner') // TODO: исправить ответ, где в поле owner приходит null
+    .populate('owner', '_id')
     .then((movies) => res.send(movies))
     .catch((err) => console.log(err));
 }
