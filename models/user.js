@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const { Schema } = mongoose;
 
@@ -32,6 +33,30 @@ const userSchema = new Schema(
       validate: {
         validator: ({ length }) => length >= 2 && length <= 30,
         message: 'Имя пользователя должно быть длиной от 2 до 30 символов',
+      },
+    },
+  },
+
+  {
+    statics: {
+      findUserByCredentials(email, password) {
+        return (
+          this
+            .findOne({ email })
+            .select('+password')
+        )
+          .then((user) => {
+            if (user) {
+              return bcrypt.compare(password, user.password)
+                .then((matched) => {
+                  if (matched) return user;
+
+                  return Promise.reject();
+                });
+            }
+
+            return Promise.reject();
+          });
       },
     },
   },
