@@ -15,5 +15,14 @@
   "plugins": [
     "require"
   ],
-  "rules": {}
+  "rules": {
+    "no-underscore-dangle": [
+      "error",
+      {
+        "allow": [
+          "_id"
+        ]
+      }
+    ]
+  }
 }
