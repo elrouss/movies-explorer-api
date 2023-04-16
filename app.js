@@ -1,8 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
+// const bodyParser = require('body-parser');
 
 mongoose.set('strictQuery', true);
-mongoose.connect('mongodb://localhost:27017/movies-explorer')
+mongoose.connect('mongodb://localhost:27017/bitfilmsdb')
   .then(() => {
     console.log('Соединение с MongoDB установлено');
   })
@@ -10,8 +11,11 @@ mongoose.connect('mongodb://localhost:27017/movies-explorer')
 
 const app = express();
 
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
+
 const { PORT = 3000 } = process.env;
 
 app.listen(PORT, (err) => {
-  return err ? console.log(`В процессе соединения с портом возникла ошибка: ${err}`) : console.log(`Соединение с портом № ${PORT} успешно установлено`);
+  err ? console.log(`В процессе соединения с портом возникла ошибка: ${err}`) : console.log(`Соединение с портом № ${PORT} успешно установлено`);
 });
