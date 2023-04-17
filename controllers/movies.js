@@ -36,12 +36,14 @@ function createMovie(req, res, next) {
     .catch((err) => console.log(err));
 }
 
-function receiveMovies(_, res, next) {
+function receiveMovies(req, res, next) {
+  const { _id } = req.user;
+
   Movie
-    .find({})
+    .find({ owner: _id })
     .populate('owner', '_id')
     .then((movies) => res.send(movies))
-    .catch((err) => console.log(err)); // TODO Должны выводиться только фильмы текущего пользователя?
+    .catch((err) => console.log(err));
 }
 
 function deleteMovie(req, res, next) {
