@@ -1,12 +1,16 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const { NODE_ENV, SECRET_SIGNING_KEY } = require('../utils/constants');
+const { NODE_ENV, SECRET_SIGNING_KEY, PASSWORD_REGEX } = require('../utils/constants');
 
 const User = require('../models/user');
 
 function registerUser(req, res, next) {
   const { email, password, name } = req.body;
+
+  if (!PASSWORD_REGEX.test(password)) {
+    return res.status(400).send('Пароль должен состоять минимум из 8 символов, включать 1 букву латиницы, цифру и спецсимвол');
+  }
 
   bcrypt.hash(password, 10)
     .then((hash) => User.create({
