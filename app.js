@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 
+const limiter = require('./middlewares/rateLimiter');
+
 const router = require('./routes/index');
 
 const errorHandler = require('./middlewares/errorHandler');
@@ -20,6 +22,8 @@ mongoose.connect(MONGODB_URL);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(limiter);
 
 app.use(router);
 
