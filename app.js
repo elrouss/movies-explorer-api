@@ -4,6 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const { errors } = require('celebrate');
 
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -15,10 +16,11 @@ const errorHandler = require('./middlewares/errorHandler');
 
 const { MONGODB_URL } = require('./utils/constants');
 
-const { PORT } = process.env;
+const { PORT = 3000 } = process.env;
 
 const app = express();
 
+app.use(cors());
 app.use(helmet());
 
 mongoose.set('strictQuery', true);
