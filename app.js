@@ -6,6 +6,8 @@ const bodyParser = require('body-parser');
 
 const router = require('./routes/index');
 
+const errorHandler = require('./middlewares/errorHandler');
+
 const { MONGODB_URL } = require('./utils/constants');
 
 const { PORT } = process.env;
@@ -19,5 +21,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(router);
+
+app.use(errorHandler);
 
 app.listen(PORT);
