@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose');
+const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 
@@ -16,6 +17,8 @@ const { MONGODB_URL } = require('./utils/constants');
 const { PORT } = process.env;
 
 const app = express();
+
+app.use(helmet());
 
 mongoose.set('strictQuery', true);
 mongoose.connect(MONGODB_URL);
