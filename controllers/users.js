@@ -14,15 +14,7 @@ function registerUser(req, res, next) {
       password: hash,
       name,
     }))
-    .then((user) => {
-      const { _id } = user;
-
-      return res.status(201).send({
-        _id,
-        email,
-        name,
-      });
-    })
+    .then(() => res.status(201).send('Пользователь успешно зарегистрирован на сайте'))
     .catch((err) => console.log(err));
 }
 
