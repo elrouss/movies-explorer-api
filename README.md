@@ -29,9 +29,9 @@
 
 <b>Ссылки на проект:</b>
 <br>
-IP: *Появится позже*
+IP: 51.250.81.132
 <br>
-Backend: *Появится позже*
+Backend: https://api.elrouss.movies.nomoredomains.monster/
 
 <b>Ссылка на чек-лист (см. раздел backend)</b>
 <br>
