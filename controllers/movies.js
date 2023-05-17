@@ -4,9 +4,6 @@ const INACCURATE_DATA_ERROR = require('../utils/errors/InaccurateDataError'); //
 const FORBIDDEN_ERROR = require('../utils/errors/ForbiddenError'); // 403
 const NOT_FOUND_ERROR = require('../utils/errors/NotFoundError'); // 404
 
-const { deletionFavourite } = RESPONSE_MESSAGES[200].movies;
-const { addingFavourite } = RESPONSE_MESSAGES[201].movies;
-
 const { cast } = RESPONSE_MESSAGES[400].users;
 const { validationSaving } = RESPONSE_MESSAGES[400].movies;
 const { accessRightsDeletion } = RESPONSE_MESSAGES[403].movies;
@@ -46,7 +43,11 @@ function createMovie(req, res, next) {
       nameRU,
       nameEN,
     })
-    .then(() => res.status(201).send({ message: addingFavourite }))
+    .then((movie) => {
+      const { _id: dbMovieId } = movie;
+
+      res.status(201).send({ message: dbMovieId });
+    })
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new INACCURATE_DATA_ERROR(validationSaving));
@@ -92,7 +93,7 @@ function deleteMovie(req, res, next) {
 
       movie
         .deleteOne()
-        .then(() => res.send({ message: deletionFavourite }))
+        .then(() => res.send({ message: null }))
         .catch(next);
     })
     .catch(next);
